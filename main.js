@@ -5,9 +5,13 @@
 const themeToggle = document.getElementById('themeToggle');
 const root = document.documentElement;
 
-// Load saved theme on page load
-if (localStorage.getItem('theme') === 'dark') {
-  root.setAttribute('data-theme', 'dark');
+// Load saved theme on page load (safe if storage is blocked)
+try {
+  if (localStorage.getItem('theme') === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  }
+} catch (error) {
+  // Storage blocked: carry on with the default theme
 }
 
 // Click handler
@@ -16,10 +20,18 @@ themeToggle.addEventListener('click', () => {
 
   if (isDark) {
     root.setAttribute('data-theme', 'light');
-    localStorage.setItem('theme', 'light');
+    try {
+      localStorage.setItem('theme', 'light');
+    } catch (error) {
+      // Storage blocked: theme just won't be remembered
+    }
   } else {
     root.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
+    try {
+      localStorage.setItem('theme', 'dark');
+    } catch (error) {
+      // Storage blocked: theme just won't be remembered
+    }
   }
 });
 
