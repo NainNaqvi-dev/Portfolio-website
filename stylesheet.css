@@ -548,14 +548,14 @@ button {
   background: var(--color-surface-alt);
 }
 
-.project-card__media svg {
+.project-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.25s ease;
 }
 
-.project-card:hover .project-card__media svg {
+.project-card:hover .project-card__media img {
   transform: scale(1.05);
 }
 

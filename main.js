@@ -209,7 +209,24 @@ let currentlyVisible = projectsPerBatch;
 
 if (filterBar) {
   const allProjectCards = document.querySelectorAll('.card-grid--portfolio .project-card');
-  const filterButtons = filterBar.querySelectorAll('.filter-btn');
+    const filterButtons = filterBar.querySelectorAll('.filter-btn');
+
+  // Hide filters that have no projects yet
+  const categories = new Set(
+    Array.from(allProjectCards).map((card) => card.querySelector('.tag').textContent.trim())
+  );
+
+  filterButtons.forEach((btn) => {
+    const label = btn.textContent.trim();
+    if (label !== 'All' && !categories.has(label)) {
+      btn.style.display = 'none';
+    }
+  });
+
+  // Hide the whole filter bar until there are at least 2 categories
+  if (categories.size < 2) {
+    filterBar.style.display = 'none';
+  }
 
   const updateGrid = () => {
     const activeBtn = filterBar.querySelector('.filter-btn.is-active');
@@ -227,6 +244,7 @@ if (filterBar) {
         // Show the card if it's within the allowed limit
         if (matchingCardsCount <= currentlyVisible) {
           card.style.display = 'flex';
+          card.classList.add('is-visible');
         } else {
           card.style.display = 'none';
         }
