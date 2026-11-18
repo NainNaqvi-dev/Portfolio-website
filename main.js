@@ -301,3 +301,34 @@ if (filterBar) {
   // Run on page load
   updateGrid();
 }
+
+
+/* ============================================================
+   HIGHLIGHT CURRENT PAGE LINK IN NAVBAR
+   ============================================================ */
+
+(function () {
+  let page = window.location.pathname.split('/').pop();
+
+  if (page === '') { page = 'index.html'; }                       // site root address
+  if (page.indexOf('.') === -1) { page = page + '.html'; }        // address without .html
+  if (page === 'project1.html') { page = 'portfolio.html'; }      // project page counts as Portfolio
+
+  const navLinks = document.querySelectorAll('.nav-link');
+  let foundMatch = false;
+
+  navLinks.forEach((link) => {
+    if (link.getAttribute('href') === page) { foundMatch = true; }
+  });
+
+  // Only change anything if a matching link exists
+  if (foundMatch) {
+    navLinks.forEach((link) => {
+      if (link.getAttribute('href') === page) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+})();
